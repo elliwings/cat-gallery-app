@@ -13,21 +13,26 @@ function Gallery() {
   const [breeds, setBreeds] = useState<string[]>([]);
 
   useEffect(() => {
-    const uniqueBreeds: string[] = [];
-    cats.forEach((cat) => {
-      const breedName = cat.breeds[0]?.name;
-      if (breedName && !uniqueBreeds.includes(breedName)) {
-        uniqueBreeds.push(breedName);
-      }
-    });
-    setBreeds(uniqueBreeds);
+    if (cats) {
+      const uniqueBreeds: string[] = [];
+      cats.forEach((cat) => {
+        const breedName = cat.breeds?.[0]?.name;
+        if (breedName && !uniqueBreeds.includes(breedName)) {
+          uniqueBreeds.push(breedName);
+        }
+      });
+      setBreeds(uniqueBreeds);
+    }
   }, [cats]);
 
-  const filteredCats = cats.filter(
+  const filteredCats = (cats || []).filter(
     (cat) =>
       (!searchQuery ||
-        cat.breeds[0].name.toLowerCase().includes(searchQuery.toLowerCase())) &&
-      (!selectedBreed || cat.breeds[0].name === selectedBreed)
+        (cat.breeds[0]?.name &&
+          cat.breeds[0].name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()))) &&
+      (!selectedBreed || cat.breeds[0]?.name === selectedBreed)
   );
 
   return (
@@ -43,11 +48,13 @@ function Gallery() {
       </div>
       {loading && <div>Loading cats...</div>}
       {error && <div>{error}</div>}
-      <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 px-10 list-none p-0  md:px-15 lg:px-20'>
-        {filteredCats.map((card) => (
-          <CatCard key={card.id} card={card} />
-        ))}
-      </ul>
+      {cats && (
+        <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 px-10 list-none p-0  md:px-15 lg:px-20'>
+          {filteredCats.map((card) => (
+            <CatCard key={card.id} card={card} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

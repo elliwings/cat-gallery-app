@@ -13,7 +13,7 @@ function CatDetails() {
 
   const { cats } = useCats();
 
-  const cat = cats.find((cat: Cat) => cat.id === id);
+  const cat = cats?.find((cat: Cat) => cat.id === id);
 
   if (!cat) {
     return <p>Cat not found</p>;

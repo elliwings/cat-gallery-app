@@ -11,6 +11,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.59.19",
     "axios": "^1.7.7",
     "classnames": "^2.5.1",
     "phosphor-react": "^1.4.1",

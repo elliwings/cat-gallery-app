@@ -3,10 +3,10 @@ import { createContext } from 'react';
 import { Cat } from '../interfaces/CatInterface';
 
 export interface CatsContextType {
-  cats: Cat[];
-  fetchCats: () => void;
+  cats: Cat[] | undefined;
+  fetchCats: () => Promise<Cat[]>;
   loading: boolean;
-  error: string | null;
+  error: boolean | null;
 }
 
 export const CatsContext = createContext<CatsContextType | undefined>(
